@@ -15,7 +15,7 @@ const problemSchema = new Schema({
         default: 'medium',
     },
     best_time: {
-        type: String,
+        type: Number,
         required: false,
     },
     best_author: {

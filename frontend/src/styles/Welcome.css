@@ -1,0 +1,84 @@
+
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  padding: 2rem;
+}
+
+.welcome-content {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  padding: 3rem;
+  text-align: center;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.welcome-description {
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.welcome-button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: #007bff;
+  color: #fff;
+  border: 2px solid #007bff;
+}
+
+.login-button:hover {
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+
+.signup-button {
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.signup-button:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.welcome-footer {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.welcome-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.welcome-link:hover {
+  text-decoration: underline;
+}

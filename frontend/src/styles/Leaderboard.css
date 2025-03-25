@@ -1,0 +1,107 @@
+
+.leaderboard-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+.leaderboard-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboard-table tr:last-child {
+  border-bottom: none;
+}
+
+.rank-1 {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.rank-2 {
+  background-color: rgba(192, 192, 192, 0.1);
+}
+
+.rank-3 {
+  background-color: rgba(205, 127, 50, 0.1);
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.problems-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.problem-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.problem-link:hover {
+  text-decoration: underline;
+}

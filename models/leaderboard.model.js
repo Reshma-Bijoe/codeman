@@ -6,17 +6,14 @@ const leaderboardSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'problem',
         required: true,
-        index: true,
-        unique: true,
     },
     time: {
-        type: String,
+        type: Number,
     },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true,
-        index: true,
     },
 });
 
