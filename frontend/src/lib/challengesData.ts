@@ -13,7 +13,7 @@ export interface Challenge {
   }[];
   timeLimit: number;
   best_time: number;
-  best_author: unknown;
+  best_author: any;
 }
 
 export interface LeaderboardEntry {

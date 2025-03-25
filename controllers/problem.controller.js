@@ -20,6 +20,11 @@ router.get('/:id', async (req, res) => {
 router.get('/get/all', async (req, res) => {
     try {
         const data = await Problem.find().populate('best_author').lean().exec();
+        data.sort((a, b) => {
+            if (a.best_time == null) return 1; // Move undefined/null to last
+            if (b.best_time == null) return -1;
+            return a.best_time - b.best_time;
+        });
         return res.status(200).json({ success: true, data });
     } catch (e) {
         return res.status(500).json({ success: false, msg: 'Error Fetching Data', error: e });
@@ -32,7 +37,7 @@ router.post('/update', async (req, res) => {
         const data = await Problem.findOne({_id: problem}).lean().exec();
         if (data) {
             if (!data.best_time || time < data.best_time) {
-                const update = await Problem.findOneAndUpdate({ _id: problem }, { best_author: user, best_author: user });
+                const update = await Problem.findOneAndUpdate({ _id: problem }, { best_author: user, best_time: time });
                 return res.status(200).json({ success: true, data: update });
             }
             return res.status(200).json({ success: true, msg: 'nothing to update'});

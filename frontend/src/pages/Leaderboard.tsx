@@ -1,37 +1,75 @@
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import { leaderboard, challenges, getChallengeLeaderboard } from '../lib/challengesData';
-import '../styles/Leaderboard.css';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import {
+  leaderboard,
+  challenges,
+  getChallengeLeaderboard,
+  Challenge,
+} from "../lib/challengesData";
+import "../styles/Leaderboard.css";
+import axios from "axios";
 
 const Leaderboard = () => {
-  const [selectedChallengeId, setSelectedChallengeId] = useState<number | null>(null);
-  
+  const [selectedChallengeId, setSelectedChallengeId] = useState<number | null>(
+    null
+  );
+  const [selectProb, setSelectedProb] = useState<Challenge>();
+
+  const [leaders, setLeaders] = useState<Challenge[]>(null);
+  const [allLeaders, setAllLeaders] = useState(null);
+
+  const getChallenges = async () => {
+    const data = await axios.get("http://localhost:3003/problems/get/all");
+    setLeaders(data.data.data);
+  };
   const handleChallengeClick = (challengeId: number) => {
     setSelectedChallengeId(challengeId);
   };
-  
-  const selectedChallenge = challenges.find(c => c.id === selectedChallengeId);
-  const challengeLeaderboard = selectedChallengeId ? getChallengeLeaderboard(selectedChallengeId) : [];
-  
+
+  useEffect(() => {
+    getChallenges();
+  }, []);
+
+  const getLeaderByproblem = async (id) => {
+    const data = await axios.get(
+      `http://localhost:3003/leader/getbyproblem/${id}`
+    );
+    setAllLeaders(data.data.data);
+  };
+
+  useEffect(() => {
+   if (selectedChallengeId) {
+     getLeaderByproblem(selectedChallengeId);
+   }
+  }, [selectedChallengeId]);
+
+  const formatTime = (seconds: number) => {
+    console.log("se", seconds);
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
-      
+
       <main className="container my-8">
-        {selectedChallengeId ? (
+        {selectedChallengeId && selectProb ? (
           <>
             <div className="leaderboard-header fade-in">
-              <button 
-                className="back-button" 
+              <button
+                className="back-button"
                 onClick={() => setSelectedChallengeId(null)}
               >
                 ← Back to Global Leaderboard
               </button>
-              <h1 className="mb-4">Leaderboard: {selectedChallenge?.title}</h1>
+              <h1 className="mb-4">
+                Leaderboard: {selectProb?.problem_header}
+              </h1>
             </div>
-            
+
             <div className="card slide-in">
               <div className="card-header">
                 <h2>Top Performers</h2>
@@ -46,18 +84,24 @@ const Leaderboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {challengeLeaderboard.map((entry) => (
-                      <tr key={entry.id} className={entry.rank <= 3 ? `rank-${entry.rank}` : ''}>
-                        <td>#{entry.rank}</td>
+                    {allLeaders?.map((entry, idx) => (
+                      <tr
+                        key={entry.id}
+                        className={idx + 1 <= 3 ? `rank-${idx + 1}` : ""}
+                      >
+                        <td>#{idx + 1}</td>
                         <td>
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-full overflow-hidden">
-                              <img src={entry.avatar} alt={entry.username} />
+                              <img
+                                src={entry?.avatar}
+                                alt={entry?.author?.username}
+                              />
                             </div>
-                            {entry.username}
+                            {entry?.author?.username}
                           </div>
                         </td>
-                        <td>{entry.completionTime}</td>
+                        <td>{formatTime(entry?.time)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -68,7 +112,7 @@ const Leaderboard = () => {
         ) : (
           <>
             <h1 className="mb-8 fade-in">Global Leaderboard</h1>
-            
+
             <div className="card slide-in">
               <div className="card-header">
                 <h2>Top Performers</h2>
@@ -85,36 +129,44 @@ const Leaderboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {leaderboard.map((entry) => (
-                      <tr key={entry.id} className={entry.rank <= 3 ? `rank-${entry.rank}` : ''}>
-                        <td>#{entry.rank}</td>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full overflow-hidden">
-                              <img src={entry.avatar} alt={entry.username} />
-                            </div>
-                            {entry.username}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="problems-list">
-                            {challenges.slice(0, 3).map(challenge => (
-                              <button
-                                key={challenge.id}
-                                className="problem-link"
-                                onClick={() => handleChallengeClick(challenge.id)}
-                              >
-                                {challenge.title}
-                              </button>
-                            ))}
-                          </div>
-                        </td>
-                        <td>
-                          {Math.floor(Math.random() * 60) + 30}:{Math.floor(Math.random() * 60).toString().padStart(2, '0')}
-                        </td>
-                        <td>{entry.score}</td>
-                      </tr>
-                    ))}
+                    {leaders?.map(
+                      (entry, idx) =>
+                        entry.best_time && (
+                          <tr
+                            key={entry._id}
+                            className={idx + 1 <= 3 ? `rank-${idx + 1}` : ""}
+                          >
+                            <td>#{idx + 1}</td>
+                            <td>
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-full overflow-hidden">
+                                  <img
+                                    // src={entry.avatar}
+                                    alt={entry?.best_author?.username}
+                                  />
+                                </div>
+                                {entry?.best_author?.username}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="problems-list">
+                                <button
+                                  key={entry._id}
+                                  className="problem-link"
+                                  onClick={() => {
+                                    setSelectedProb(entry);
+                                    handleChallengeClick(entry._id);
+                                  }}
+                                >
+                                  {entry.problem_header}
+                                </button>
+                              </div>
+                            </td>
+                            <td>{formatTime(entry.best_time) || 0}</td>
+                            <td>{5}</td>
+                          </tr>
+                        )
+                    )}
                   </tbody>
                 </table>
               </div>
