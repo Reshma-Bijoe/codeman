@@ -93,7 +93,7 @@ print("\\n".join(results))
     fs.writeFileSync("test_runner.py", testCode);
 
     // Run Python code and return the output
-    exec("python3 test_runner.py", (error, stdout, stderr) => {
+    exec("python test_runner.py", (error, stdout, stderr) => {
         if (error) {
             return res.json({ error: stderr || error.message });
         }
