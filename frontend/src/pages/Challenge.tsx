@@ -165,7 +165,7 @@ const Challenge = () => {
       return;
     }
 
-    console.log("user", user);
+    // console.log("user", user);
 
     setIsSubmitting(true);
 
@@ -179,17 +179,11 @@ const Challenge = () => {
       { newtime: timer, userId: user.id, problemId: challenge._id }
     );
 
+    const sub = await axios.post("http://localhost:3003/sub/add", {time: timer, user: user.id, problem: challenge._id, code});
+
     setIsSubmitting(false);
 
     navigate("/");
-
-    // completions.push({
-    //   challengeId: challenge._id,
-    //   userId: user.id,
-    //   username: user.username,
-    //   completionTime,
-    //   timestamp: new Date().toISOString(),
-    // });
   };
 
   return (

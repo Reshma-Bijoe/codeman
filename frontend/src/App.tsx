@@ -13,6 +13,8 @@ import Challenges from "./pages/Challenges";
 import Challenge from "./pages/Challenge";
 import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import Submissions from "./pages/Submissions";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/challenge/:id" element={<Challenge />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/my-submissions" element={<Submissions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -4,6 +4,7 @@ const app = express();
 const connection = require('./config/db');
 const probelmController = require('./controllers/problem.controller');
 const LeaderBoardController = require('./controllers/leaderboard.controller');
+const SubController = require('./controllers/submissions.controller');
 const { register } = require('./controllers/signup.controller');
 const login = require('./controllers/login.controller');
 
@@ -15,6 +16,7 @@ app.post('/signup', register);
 
 app.use('/problems', probelmController);
 app.use('/leader', LeaderBoardController);
+app.use('/sub', SubController);
 
 app.listen(3003, async function () {
     await connection();

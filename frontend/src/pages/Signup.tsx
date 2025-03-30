@@ -33,6 +33,7 @@ const Signup = () => {
         "user",
         JSON.stringify({
           id: user._id,
+          email: user.email,
           username: user.username,
           avatar: `https://i.pravatar.cc/150?img=${
             Math.floor(Math.random() * 10) + 1
