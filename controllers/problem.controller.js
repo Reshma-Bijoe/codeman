@@ -51,6 +51,7 @@ router.post('/update', async (req, res) => {
 
 router.post("/run", (req, res) => {
     const { code, testCases } = req.body;
+    const command = process.platform === "win32" ? 'python' : 'python3';
 
     function wrapUserCode(code) {
         // Ensure function name is always `user_function`
@@ -83,7 +84,7 @@ print("\\n".join(results))
     fs.writeFileSync("test_runner.py", testCode);
 
     // Run Python code and return the output
-    exec("python3 test_runner.py", (error, stdout, stderr) => {
+    exec(`${command} test_runner.py`, (error, stdout, stderr) => {
         if (error) {
             return res.json({ error: stderr || error.message });
         }
