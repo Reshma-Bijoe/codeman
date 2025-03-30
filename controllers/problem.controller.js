@@ -50,9 +50,7 @@ router.post('/update', async (req, res) => {
 });
 
 router.post("/run", (req, res) => {
-    const { code } = req.body;
-    // fs.unlinkSync("user_code.pyc", { force: true });
-
+    const { code, testCases } = req.body;
 
     function wrapUserCode(code) {
         // Ensure function name is always `user_function`
@@ -62,14 +60,6 @@ router.post("/run", (req, res) => {
     // Assume `codeFromFrontend` is the Python code sent from the frontend
     const wrappedCode = wrapUserCode(code);
     fs.writeFileSync("user_code.py", wrappedCode);
-
-    const testCases = [
-        { input: [1, 2], expectedOutput: 3 },
-        { input: [5, 7], expectedOutput: 12 },
-        { input: [-3, 8], expectedOutput: 5 }
-    ];
-
-
 
     // Generate test case execution
     let testCode = `
@@ -81,7 +71,7 @@ for case in test_cases:
     inputs = case["input"]  # Dynamically unpack inputs
     expected = case["expectedOutput"]
     try:
-        output = user_function(*inputs)
+        output = user_function(*inputs) if isinstance(inputs, list) else user_function(inputs)
         results.append(f"Input: {inputs} => Output: {output} | Expected: {expected} | {'✅' if str(output) == str(expected) else '❌'}")
     except Exception as e:
         results.append(f"Input: {inputs} => Error: {str(e)}")
