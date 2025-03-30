@@ -15,7 +15,7 @@ const Challenge = () => {
   const [challenge, setChallenge] = useState<CH | null>(null);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const leaderboard = getChallengeLeaderboard(Number(id));
+  const [leaderboard, setLeaderboard] = useState([]);
 
   const [code, setCode] = useState("");
   const [testResults, setTestResults] = useState<
@@ -39,9 +39,19 @@ const Challenge = () => {
     setChallenge(data.data.data);
   };
 
+  const getLeaderboard = async () => {
+    if (id) {
+      const data = await axios.get(
+        `http://localhost:3003/leader/getbyproblem/${id}`
+      );
+      setLeaderboard(data.data.data);
+    }
+  };
+
   useEffect(() => {
     // Check if user is logged in
     const loggedInUser = localStorage.getItem("user");
+    getLeaderboard();
     if (loggedInUser) {
       setUser(JSON.parse(loggedInUser));
     }
@@ -155,7 +165,7 @@ const Challenge = () => {
       return;
     }
 
-    console.log('user', user);
+    console.log("user", user);
 
     setIsSubmitting(true);
 
@@ -168,7 +178,7 @@ const Challenge = () => {
       "http://localhost:3003/leader/postleaderdata",
       { newtime: timer, userId: user.id, problemId: challenge._id }
     );
-    
+
     setIsSubmitting(false);
 
     const completions = JSON.parse(localStorage.getItem("completions") || "[]");
@@ -297,18 +307,21 @@ const Challenge = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {leaderboard.map((entry) => (
-                        <tr key={entry.id} className={`rank-${entry.rank}`}>
-                          <td>#{entry.rank}</td>
+                      {leaderboard.map((entry, idx) => (
+                        <tr key={entry._id} className={`rank-${idx + 1}`}>
+                          <td>#{idx + 1}</td>
                           <td>
                             <div className="flex items-center gap-2">
                               <div className="w-8 h-8 rounded-full overflow-hidden">
-                                <img src={entry.avatar} alt={entry.username} />
+                                <img
+                                  src={entry?.avatar}
+                                  alt={entry?.author?.username}
+                                />
                               </div>
-                              {entry.username}
+                              {entry?.author?.username}
                             </div>
                           </td>
-                          <td>{entry.completionTime}</td>
+                          <td>{entry.time}</td>
                         </tr>
                       ))}
                     </tbody>
