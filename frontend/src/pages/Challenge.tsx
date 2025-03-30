@@ -181,15 +181,15 @@ const Challenge = () => {
 
     setIsSubmitting(false);
 
-    const completions = JSON.parse(localStorage.getItem("completions") || "[]");
-    completions.push({
-      challengeId: challenge._id,
-      userId: user.id,
-      username: user.username,
-      completionTime,
-      timestamp: new Date().toISOString(),
-    });
-    localStorage.setItem("completions", JSON.stringify(completions));
+    navigate('/');
+
+    // completions.push({
+    //   challengeId: challenge._id,
+    //   userId: user.id,
+    //   username: user.username,
+    //   completionTime,
+    //   timestamp: new Date().toISOString(),
+    // });
   };
 
   return (
@@ -312,16 +312,10 @@ const Challenge = () => {
                           <td>#{idx + 1}</td>
                           <td>
                             <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 rounded-full overflow-hidden">
-                                <img
-                                  src={entry?.avatar}
-                                  alt={entry?.author?.username}
-                                />
-                              </div>
                               {entry?.author?.username}
                             </div>
                           </td>
-                          <td>{entry.time}</td>
+                          <td>{formatTime(entry.time)}</td>
                         </tr>
                       ))}
                     </tbody>

@@ -92,12 +92,6 @@ const Leaderboard = () => {
                         <td>#{idx + 1}</td>
                         <td>
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full overflow-hidden">
-                              <img
-                                src={entry?.avatar}
-                                alt={entry?.author?.username}
-                              />
-                            </div>
                             {entry?.author?.username}
                           </div>
                         </td>
@@ -139,12 +133,6 @@ const Leaderboard = () => {
                             <td>#{idx + 1}</td>
                             <td>
                               <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full overflow-hidden">
-                                  <img
-                                    // src={entry.avatar}
-                                    alt={entry?.best_author?.username}
-                                  />
-                                </div>
                                 {entry?.best_author?.username}
                               </div>
                             </td>
