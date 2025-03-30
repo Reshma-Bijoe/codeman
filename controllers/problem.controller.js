@@ -73,7 +73,8 @@ for case in test_cases:
     expected = case["expectedOutput"]
     try:
         output = user_function(*inputs) if isinstance(inputs, list) else user_function(inputs)
-        results.append(f"Input: {inputs} => Output: {output} | Expected: {expected} | {'✅' if str(output) == str(expected) else '❌'}")
+        status = "PASS" if str(output) == str(expected) else "FAIL"
+        results.append(f"Input: {inputs} => Output: {output} | Expected: {expected} | {status}")
     except Exception as e:
         results.append(f"Input: {inputs} => Error: {str(e)}")
 

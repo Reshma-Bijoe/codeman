@@ -123,15 +123,15 @@ const Challenge = () => {
           .split("\n")
           .map((line, index) => {
             const match = line.match(
-              /Input: (.*?) => Output: (.*?) \| Expected: (.*?) \| (✅|❌)/
+              /Input: (.*?) => Output: (.*?) \| Expected: (.*?) \| (PASS|FAIL)/
             );
             if (match) {
               return {
                 id: index,
                 name: `Test Case ${index + 1}`,
-                status: match[4] === "✅" ? "pass" : "fail",
+                status: match[4] === "PASS" ? "pass" : "fail",
                 message:
-                  match[4] === "✅"
+                  match[4] === "PASS"
                     ? undefined
                     : `Expected: ${match[3]}, Got: ${match[2]}`,
               };
@@ -181,7 +181,7 @@ const Challenge = () => {
 
     setIsSubmitting(false);
 
-    navigate('/');
+    navigate("/");
 
     // completions.push({
     //   challengeId: challenge._id,
